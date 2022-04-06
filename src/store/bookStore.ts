@@ -13,6 +13,7 @@ interface BookInfo {
 	author: string
 	price: number
 	stock: number
+	count: number
 }
 
 interface BookState {

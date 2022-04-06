@@ -1,22 +1,47 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { Search } from '@element-plus/icons-vue'
+import { ref, watch } from 'vue'
 import { useBookStore } from '../store/bookStore'
 const name = ref('')
 const bookStore = useBookStore()
 
+
+const price_s = ref('')
+const price_t = ref('')
+const time_s = ref('')
+const time_t = ref('')
+
+watch(price_s, (val, oldval) => {
+	if (isNaN(Number(val))) price_s.value = oldval
+	else bookStore.filter.price[0] = price_s.value
+})
+watch(price_t, (val, oldval) => {
+	if (isNaN(Number(val))) price_t.value = oldval
+	else bookStore.filter.price[1] = price_t.value
+})
+watch(time_s, (val, oldval) => {
+	if (isNaN(Number(val))) time_s.value = oldval
+	else bookStore.filter.time[0] = time_s.value
+})
+watch(time_t, (val, oldval) => {
+	if (isNaN(Number(val))) time_t.value = oldval
+	else bookStore.filter.time[1] = time_t.value
+})
 const clearFilter = () => {
 	bookStore.$patch({
-			filter: {
-				press: '',
-				name: '',
-				type: '',
-				number: '',
-				author: '',
-				time: ['', ''],
-				price: ['', '']
-			}
-		})
+		filter: {
+			press: '',
+			name: '',
+			type: '',
+			number: '',
+			author: '',
+			time: ['', ''],
+			price: ['', '']
+		}
+	})
+	price_s.value = ''
+	price_t.value = ''
+	time_s.value = ''
+	time_t.value = ''
 }
 const submitFilter = () => {
 
@@ -48,19 +73,19 @@ const submitFilter = () => {
 	<el-row justify="space-between" :align="'middle'" style="height: 50%; font-size: 12px;">
 		<el-col :span="2" style="display: flex; flex-direction: row; justify-content: flex-start;">价格范围：</el-col>
 		<el-col :span="3">
-			<el-input v-model="bookStore.filter.price[0]" class="search-input" />
+			<el-input v-model="price_s" class="search-input" />
 		</el-col>
 		<el-col :span="1">~</el-col>
 		<el-col :span="3">
-			<el-input v-model="bookStore.filter.price[1]" class="search-input" />
+			<el-input v-model="price_t" class="search-input" />
 		</el-col>
 		<el-col :span="2" style="display: flex; flex-direction: row; justify-content: flex-start;">年份范围：</el-col>
 		<el-col :span="3">
-			<el-input v-model="bookStore.filter.time[0]" />
+			<el-input v-model="time_s" class="search-input" />
 		</el-col>
 		<el-col :span="1">~</el-col>
 		<el-col :span="3">
-			<el-input v-model="bookStore.filter.time[1]" />
+			<el-input v-model="time_t" class="search-input" />
 		</el-col>
 		<el-col :span="3" style="display: flex; flex-direction: row; justify-content: flex-end;">
 		<el-button-group>

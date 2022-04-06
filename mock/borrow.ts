@@ -8,7 +8,7 @@ interface Request {
 
 export default [
 	{
-		url: "/api/books",
+		url: "/api/borrows",
 		method: "get",
 		response: ({ query }: Request) => {
 			query.page = Number(query.page)
@@ -19,9 +19,10 @@ export default [
 					message: "ok",
 					data: {
 						total: 100,
-						books: [
+						borrows: [
 							{
 								id: 1,
+								borrow_id: 1,
 								number: "computer_01",
 								type: "computer science",
 								press: "机械工业出版社",
@@ -29,20 +30,21 @@ export default [
 								name: "没人理解计算机系统",
 								author: "Alan Turing",
 								price: 99.9,
-								stock: 2,
-								count: 3
+								borrow_time: "2022-3-1",
+								return_time: "2022-3-2",
 							},
 							{
 								id: 2,
+								borrow_id: 2,
 								number: "computer_02",
 								type: "computer science",
 								press: "机械工业出版社",
 								time: "2022",
 								name: "深入理解计算机系统",
 								author: "Jianling Sun",
-								price: 66.6,
-								stock: 0,
-								count: 1
+								price: 99.9,
+								borrow_time: "2022-4-1",
+								return_time: "2022-5-2",
 							},
 						],
 					},
@@ -53,9 +55,10 @@ export default [
 					message: "ok",
 					data: {
 						total: 100,
-						books: [
+						borrows: [
 							{
 								id: 3,
+								borrow_id: 3,
 								number: "histroy_01",
 								type: "histroy",
 								press: "浙江大学出版社",
@@ -63,11 +66,12 @@ export default [
 								name: "中国古代史",
 								author: "xxx",
 								price: 99.9,
-								stock: 2,
-								count: 3
+								borrow_time: "2022-6-1",
+								return_time: "2022-7-2",
 							},
 							{
 								id: 4,
+								borrow_id: 4,
 								number: "computer_03",
 								type: "computer science",
 								press: "清华大学出版社",
@@ -75,8 +79,8 @@ export default [
 								name: "数据库系统设计",
 								author: "Jianling Sun",
 								price: 66.6,
-								stock: 0,
-								count: 1
+								borrow_time: "2022-6-1",
+								return_time: "2022-7-2",
 							},
 						],
 					},

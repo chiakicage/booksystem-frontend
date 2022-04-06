@@ -8,7 +8,7 @@ import { ElementPlusResolver } from "unplugin-vue-components/resolvers"
 // https://vitejs.dev/config/
 
 export default ({ command }: ConfigEnv): UserConfigExport => {
-  const prodMock = true
+  const prodMock = false
   return {
 		plugins: [
 			vue(),

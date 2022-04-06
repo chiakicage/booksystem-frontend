@@ -7,6 +7,7 @@ import BorrowSearch from './components/BorrowSearch.vue'
 import { ArrowDown } from '@element-plus/icons-vue'
 import { useUserStore } from './store/userStore'
 import { useBookStore } from './store/bookStore'
+import { useBorrowStore } from './store/borrowStore'
 import 'element-plus/theme-chalk/el-message.css'
 
 import { ref, watch, onMounted } from 'vue'
@@ -14,12 +15,17 @@ import type { TabsPaneContext } from 'element-plus'
 import { ElMessage } from 'element-plus'
 
 const bookStore = useBookStore()
+const borrowStore = useBorrowStore()
 
 onMounted(() => {
   bookStore.getbooks()
 })
 const activeName = ref('book')
-watch(activeName, (newval, oldval) => {
+watch(activeName, (val) => {
+  if (val === 'book') 
+    bookStore.getbooks()
+  else if (val === 'borrow')
+    borrowStore.getborrows()
 })
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event)
