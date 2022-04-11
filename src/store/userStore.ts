@@ -2,7 +2,7 @@ import { defineStore, acceptHMRUpdate } from 'pinia'
 import { mande } from 'mande'
 import { sha256 } from "js-sha256"
 
-const users = mande('/api/users')
+const users = mande('http://localhost:8080/api/users')
 
 type UserType = 'admin' | 'teacher' | 'student'
 interface UserState {
@@ -47,7 +47,7 @@ export const useUserStore = defineStore({
 					})
 					return { code: 0, message: '登录成功' }
 				} else {
-					return { code: 1, message: '登陆失败' }
+					return { code: 1, message: '登录失败' }
 				}
 			} catch (err) {
 				return { code: 1, message: err as string }
@@ -55,9 +55,12 @@ export const useUserStore = defineStore({
 			
 		},
 		async check() {
-			const user = await users.get<UserState>('check')
-			if (user.logined) {
-				this.$patch(user)
+			const user = await users.get<Response>('check')
+			if (user.code === 0) {
+				this.$patch({
+					logined: true,
+					...user.data,
+				})
 			} else {
 				this.$reset()
 			}

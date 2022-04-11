@@ -2,21 +2,25 @@ import { defineStore, acceptHMRUpdate } from "pinia"
 import { mande } from "mande"
 import { useUserStore } from "./userStore"
 
-const borrows = mande("/api/borrows")
+const borrows = mande("http://localhost:8080/api/borrows")
 
 interface BorrowInfo {
-	id: number
-	borrow_id: number
-	number: string
-	type: string
-	name: string
-	press: string
-	time: number
-	author: string
-	price: number
-	stock: number
-	borrow_date: string
-	return_date: string
+	borrow_s: string
+	borrow_t: string
+	userNumber: string
+	bookNumber: string
+	book: {
+		number: string
+		type: string
+		name: string
+		press: string
+		time: number
+		author: string
+		price: number
+		stock: number
+		count: number
+		return_time: number
+	}
 }
 
 interface BorrowState {
@@ -46,8 +50,8 @@ export const useBorrowStore = defineStore({
 				const userStore = useUserStore()
 				const res = await borrows.get<Response>('', {
 					query: {
-						page: this.page,
-						user_id: userStore.number
+						userNumber: userStore.number,
+						page: this.page
 					}
 				})
 				console.log(res)

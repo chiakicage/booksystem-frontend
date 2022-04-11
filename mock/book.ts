@@ -37,7 +37,7 @@ export default [
 								number: "computer_02",
 								type: "computer science",
 								press: "机械工业出版社",
-								time: "2022",
+								time: "2021",
 								name: "深入理解计算机系统",
 								author: "Jianling Sun",
 								price: 66.6,

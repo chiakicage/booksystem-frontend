@@ -4,9 +4,9 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
-    BookEdit: typeof import('./src/components/BookEdit.vue')['default']
     BookManage: typeof import('./src/components/BookManage.vue')['default']
     BookSearch: typeof import('./src/components/BookSearch.vue')['default']
+    BorrowManage: typeof import('./src/components/BorrowManage.vue')['default']
     BorrowSearch: typeof import('./src/components/BorrowSearch.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElButtonGroup: typeof import('element-plus/es')['ElButtonGroup']
@@ -22,7 +22,6 @@ declare module 'vue' {
     ElHeader: typeof import('element-plus/es')['ElHeader']
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElInput: typeof import('element-plus/es')['ElInput']
-    ElInputNumber: typeof import('element-plus/es')['ElInputNumber']
     ElMain: typeof import('element-plus/es')['ElMain']
     ElPagination: typeof import('element-plus/es')['ElPagination']
     ElRow: typeof import('element-plus/es')['ElRow']
@@ -31,9 +30,11 @@ declare module 'vue' {
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTag: typeof import('element-plus/es')['ElTag']
+    ElTooltip: typeof import('element-plus/es')['ElTooltip']
+    ElUpload: typeof import('element-plus/es')['ElUpload']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
-    Login: typeof import('./src/components/Login.vue')['default']
     SearchBar: typeof import('./src/components/SearchBar.vue')['default']
+    UserManage: typeof import('./src/components/UserManage.vue')['default']
   }
 }
 

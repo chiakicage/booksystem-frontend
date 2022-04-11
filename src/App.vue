@@ -3,7 +3,8 @@
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
 // import HelloWorld from './components/HelloWorld.vue'
 import BookSearch from './components/BookSearch.vue'
-import BorrowSearch from './components/BorrowSearch.vue'
+import BorrowManage from './components/BorrowManage.vue'
+import BookManage from './components/BookManage.vue'
 import { ArrowDown } from '@element-plus/icons-vue'
 import { useUserStore } from './store/userStore'
 import { useBookStore } from './store/bookStore'
@@ -16,17 +17,23 @@ import { ElMessage } from 'element-plus'
 
 const bookStore = useBookStore()
 const borrowStore = useBorrowStore()
-
-onMounted(() => {
-  bookStore.getbooks()
-})
 const activeName = ref('book')
 watch(activeName, (val) => {
+  localStorage.setItem('activeName', val)
   if (val === 'book') 
     bookStore.getbooks()
   else if (val === 'borrow')
     borrowStore.getborrows()
 })
+onMounted(() => {
+  userStore.check()
+  bookStore.getbooks()
+  borrowStore.getborrows()
+  if (localStorage.getItem('activeName')) {
+    activeName.value = localStorage.getItem('activeName') as string
+  }
+})
+
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event)
 }
@@ -63,6 +70,7 @@ const logout = async () => {
       message: res.message,
       duration: 1000
     })
+    activeName.value = 'book'
   } else {
     ElMessage({
       type: 'error',
@@ -157,13 +165,13 @@ const handleCommand = (command: 'login' | 'logout' | 'info') => {
           <BookSearch></BookSearch>
         </el-tab-pane>
         <el-tab-pane label="借阅查询" name="borrow" v-if="userStore.logined">
-          <BorrowSearch></BorrowSearch>
+          <BorrowManage></BorrowManage>
         </el-tab-pane>
         <el-tab-pane
           label="图书入库"
           name="addbook"
           v-if="userStore.logined && userStore.type === 'admin'"
-        >Role</el-tab-pane>
+        ><BookManage></BookManage></el-tab-pane>
         <el-tab-pane
           label="用户管理"
           name="users"
