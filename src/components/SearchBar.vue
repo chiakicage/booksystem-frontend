@@ -43,9 +43,7 @@ const clearFilter = () => {
 	time_s.value = ''
 	time_t.value = ''
 }
-const submitFilter = () => {
 
-}
 </script>
 <template>
 	<el-row justify="space-between" :align="'middle'" style="height: 50%; font-size: 12px;">

@@ -39,7 +39,7 @@ export const useUserStore = defineStore({
 						passwd: sha256(passwd + '_librarysys')
 					}
 				})
-				console.log(user)
+				// console.log(user)
 				if (user.code === 0) {
 					this.$patch({
 						logined: true,
@@ -47,10 +47,10 @@ export const useUserStore = defineStore({
 					})
 					return { code: 0, message: '登录成功' }
 				} else {
-					return { code: 1, message: '登录失败' }
+					return { code: user.code, message: user.message }
 				}
 			} catch (err) {
-				return { code: 1, message: err as string }
+				return { code: 3, message: '网络错误' }
 			}
 			
 		},

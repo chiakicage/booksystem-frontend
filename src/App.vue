@@ -30,10 +30,8 @@ watch(activeName, (val) => {
   else if (val === 'users')
     userManageStore.getusers()
 })
-onMounted(() => {
-  userStore.check()
-  bookStore.getbooks()
-  borrowStore.getborrows()
+onMounted(async () => {
+  await userStore.check()
   if (userStore.logined) {
     if (localStorage.getItem('activeName')) {
       activeName.value = localStorage.getItem('activeName') as string
@@ -41,6 +39,8 @@ onMounted(() => {
   } else {
     localStorage.removeItem('activeName')
   }
+  await bookStore.getbooks()
+  await borrowStore.getborrows()
 })
 
 const handleClick = (tab: TabsPaneContext, event: Event) => {

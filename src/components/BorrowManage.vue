@@ -3,6 +3,8 @@ import { ref } from 'vue'
 import { useUserStore } from '../store/userStore'
 import { useBorrowStore } from '../store/borrowStore'
 
+import { ElMessage } from 'element-plus'
+
 import { mande } from 'mande'
 
 const borrow = mande('http://localhost:8080/api/borrows')
@@ -16,6 +18,11 @@ const handleReturn = async (id: number) => {
 			borrowId: id
 		}
 	})
+	ElMessage({
+		message: '还书成功',
+		type: 'success',
+		duration: 1000
+	})
 	borrowStore.getborrows()
 }
 const handleRenew = async (id: number) => {
@@ -23,6 +30,11 @@ const handleRenew = async (id: number) => {
 		query: {
 			borrowId: id
 		}
+	})
+	ElMessage({
+		message: '续借成功',
+		type: 'success',
+		duration: 1000
 	})
 	borrowStore.getborrows()
 }

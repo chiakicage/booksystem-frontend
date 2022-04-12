@@ -21,12 +21,12 @@ const editingUser = ref({
 	password1: '',
 	password2: ''
 })
-const checkPass =  (rule: any, value: any, callback: any) => {
+const checkPass = (rule: any, value: any, callback: any) => {
 	if (value !== editingUser.value.password1) {
-    callback(new Error("两次密码输入不一致！"))
-  } else {
-    callback()
-  }
+		callback(new Error("两次密码输入不一致！"))
+	} else {
+		callback()
+	}
 }
 const rules = reactive({
 	name: [
@@ -36,12 +36,12 @@ const rules = reactive({
 		{ required: true, message: '请输入部门', trigger: 'blur' },
 	],
 	password2: [
-		{ validator: checkPass, trigger: 'blur'}
+		{ validator: checkPass, trigger: 'blur' }
 	]
 })
 
 
-const handleEdit = async (user : any) => {
+const handleEdit = async (user: any) => {
 	editDialog.value = true
 	editingUser.value.name = user.name
 	editingUser.value.number = user.number
@@ -51,37 +51,57 @@ const handleEdit = async (user : any) => {
 	editingUser.value.password2 = ''
 }
 const ruleFormRef = ref<FormInstance>()
-const submitEdit = async (formEl: FormInstance) => {
-	console.log(123)
-	let valid = await (new Promise<Boolean>((resolve) => {
-		formEl.validate((valid) => resolve(valid))
-	}))
-	if (valid) {
-		try {
-			let res = await user.get<Record<string, any>>('edit', {
-				query: {
-					number: editingUser.value.number,
-					name: editingUser.value.name,
-					department: editingUser.value.department,
-					type: editingUser.value.type,
-					password: sha256(editingUser.value.password1 + '_librarysys')
+const submitEdit = async (formEl: FormInstance | undefined) => {
+	if (formEl) {
+		let valid = await (new Promise<Boolean>((resolve) => {
+			formEl.validate((valid) => resolve(valid))
+		}))
+		if (valid) {
+			try {
+				let res = await user.get<Record<string, any>>('edit', {
+					query: {
+						number: editingUser.value.number,
+						name: editingUser.value.name,
+						department: editingUser.value.department,
+						type: editingUser.value.type,
+						password: sha256(editingUser.value.password1 + '_librarysys')
+					}
+				})
+				if (res.code === 0) {
+					await userManageStore.getusers()
+					editDialog.value = false
+					editingUser.value = {
+						name: '',
+						number: '',
+						department: '',
+						type: 'student',
+						password1: '',
+						password2: ''
+					}
+					ElMessage({
+						type: 'success',
+						message: '修改成功',
+						duration: 1000
+					})
+				} else {
+					ElMessage({
+						type: 'error',
+						message: '修改失败',
+						duration: 1000
+					})
 				}
-			})
-			if (res.code === 0) {
-				await userManageStore.getusers()
-				editDialog.value = false
-			}
-		} catch (err) {
-
-		}
-	} else {
-		// console.log('error submit!')
-		// return false
-	}
+			} catch (err) {
 	
+			}
+		} else {
+			// console.log('error submit!')
+			// return false
+		}
+	}
+
 }
 const deletePopover = ref(false)
-const handleDelete = async (number : string) => {
+const handleDelete = async (number: string) => {
 	let index = userManageStore.users.findIndex((u) => u.number === number)
 	userManageStore.users.splice(index, 1)
 	try {
@@ -118,7 +138,7 @@ const rules2 = reactive({
 		{ required: true, message: '请输入密码', trigger: 'blur' },
 	],
 	password2: [
-		{ validator: checkPass, trigger: 'blur'}
+		{ validator: checkPass, trigger: 'blur' }
 	]
 })
 const newDialog = ref(false)
@@ -132,37 +152,57 @@ const handleCreate = async () => {
 	editingUser.value.password2 = ''
 }
 const ruleFormRef2 = ref<FormInstance>()
-const submitCreate = async (formEl: FormInstance) => {
-	console.log(123)
-	let valid = await (new Promise<Boolean>((resolve) => {
-		formEl.validate((valid) => resolve(valid))
-	}))
-	if (valid) {
-		try {
-			let res = await user.post<Record<string, any>>('create', {
-				number: editingUser.value.number,
-				name: editingUser.value.name,
-				department: editingUser.value.department,
-				type: editingUser.value.type,
-				password: sha256(editingUser.value.password1 + '_librarysys')
-			})
-			if (res.code === 0) {
-				await userManageStore.getusers()
-				newDialog.value = false
-			}
-		} catch (err) {
-
-		}
-	} else {
-		// console.log('error submit!')
-		// return false
-	}
+const submitCreate = async (formEl: FormInstance | undefined) => {
+	if (formEl) {
+		let valid = await (new Promise<Boolean>((resolve) => {
+			formEl.validate((valid) => resolve(valid))
+		}))
+		if (valid) {
+			try {
+				let res = await user.post<Record<string, any>>('create', {
+					number: editingUser.value.number,
+					name: editingUser.value.name,
+					department: editingUser.value.department,
+					type: editingUser.value.type,
+					password: sha256(editingUser.value.password1 + '_librarysys')
+				})
+				if (res.code === 0) {
+					await userManageStore.getusers()
+					newDialog.value = false
+					editingUser.value = {
+						name: '',
+						number: '',
+						department: '',
+						type: 'student',
+						password1: '',
+						password2: ''
+					}
+					ElMessage({
+						type: 'success',
+						message: '添加成功',
+						duration: 1000
+					})
+				} else {
+					ElMessage({
+						type: 'error',
+						message: '添加失败',
+						duration: 1000
+					})
+				}
+			} catch (err) {
 	
+			}
+		} else {
+			// console.log('error submit!')
+			// return false
+		}
+	}
+
 }
 
 </script>
 <template>
-	<el-dialog v-model="editDialog" title="修改用户" width="400px" center >
+	<el-dialog v-model="editDialog" title="修改用户" width="400px" center>
 		<el-form label-width="80px" ref="ruleFormRef" :rules="rules" :model="editingUser">
 			<el-form-item label="借书证号" prop="number">
 				<el-input v-model="editingUser.number" disabled></el-input>
@@ -188,11 +228,11 @@ const submitCreate = async (formEl: FormInstance) => {
 			</el-form-item>
 		</el-form>
 		<template #footer>
-			<el-button @click="editDialog = false">取消</el-button>
+			<el-button @click="editDialog = false; ruleFormRef?.resetFields()">取消</el-button>
 			<el-button type="primary" @click="submitEdit(ruleFormRef)">提交</el-button>
-    </template>
+		</template>
 	</el-dialog>
-	<el-dialog v-model="newDialog" title="创建新用户" width="400px" center >
+	<el-dialog v-model="newDialog" title="创建新用户" width="400px" center>
 		<el-form label-width="80px" ref="ruleFormRef2" :rules="rules2" :model="editingUser">
 			<el-form-item label="借书证号" prop="number">
 				<el-input v-model="editingUser.number"></el-input>
@@ -218,9 +258,9 @@ const submitCreate = async (formEl: FormInstance) => {
 			</el-form-item>
 		</el-form>
 		<template #footer>
-			<el-button @click="newDialog = false">取消</el-button>
+			<el-button @click="newDialog = false; ruleFormRef2?.resetFields()">取消</el-button>
 			<el-button type="primary" @click="submitCreate(ruleFormRef2)">提交</el-button>
-    </template>
+		</template>
 	</el-dialog>
 	<el-container class="book-container">
 		<el-main class="main-usermanage">
@@ -231,45 +271,18 @@ const submitCreate = async (formEl: FormInstance) => {
 				<el-table-column prop="type" label="类别" width="160" />
 				<el-table-column label="操作">
 					<template #default="scope">
-						<el-button
-							size="small"
-							@click="handleEdit(scope.row)"
-							:disabled="scope.row.number === 'admin'"
-						>修改</el-button>
-						<!-- <el-popover v-model:visable="deletePopover" trigger="click">
-							<p>确定要删除吗?</p>
-							<div style="text-align: right; margin: 0">
-								<el-button size="small" type="text" @click="deletePopover = false"
-									>取消</el-button
-								>
-								<el-button size="small" type="primary" @click="deletePopover = false; handleDelete(scope.row.number)"
-									>确认</el-button
-								>
-						</div>
-							<template #reference> -->
-								<el-button
-									type="danger"
-									size="small"
-									:disabled="scope.row.number === 'admin'"
-									@click="handleDelete(scope.row.number)"
-								>删除</el-button>
-							<!-- </template> -->
-						<!-- </el-popover> -->
-						
+						<el-button size="small" @click="handleEdit(scope.row)" :disabled="scope.row.number === 'admin'">修改
+						</el-button>
+						<el-button type="danger" size="small" :disabled="scope.row.number === 'admin'"
+							@click="handleDelete(scope.row.number)">删除</el-button>
 					</template>
-					
+
 				</el-table-column>
 			</el-table>
 		</el-main>
 		<el-footer class="book-pages">
-			<el-pagination
-				v-model:current-page="userManageStore.page"
-				@current-change="userManageStore.getusers()"
-				:page-size="10"
-				:background="true"
-				layout="total, prev, pager, next, jumper"
-				:total="userManageStore.total"
-			/>
+			<el-pagination v-model:current-page="userManageStore.page" @current-change="userManageStore.getusers()"
+				:page-size="10" :background="true" layout="total, prev, pager, next, jumper" :total="userManageStore.total" />
 			<el-button type="primary" @click="handleCreate"> 添加用户 </el-button>
 		</el-footer>
 	</el-container>
@@ -279,12 +292,14 @@ const submitCreate = async (formEl: FormInstance) => {
 	height: 100%;
 	padding: 0;
 }
-.book-container > .book-pages {
+
+.book-container>.book-pages {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
 }
+
 .main-usermanage {
 	display: flex;
 	flex-direction: row;

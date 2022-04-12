@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import SearchBar from './SearchBar.vue';
 import { useUserStore } from '../store/userStore'
 import { useBookStore } from '../store/bookStore'
+import { ElMessage } from 'element-plus';
 
 import { mande } from 'mande'
 
@@ -11,9 +12,6 @@ const borrow = mande('http://localhost:8080/api/borrows')
 const userStore = useUserStore()
 const bookStore = useBookStore()
 
-const handleClick = () => {
-	console.log('click')
-}
 const handleBorrow = async (number: string) => {
 	if (userStore.logined) {
 		let res = await borrow.get('borrow', {
@@ -21,6 +19,11 @@ const handleBorrow = async (number: string) => {
 				bookNumber: number,
 				userNumber: userStore.number
 			}
+		})
+		ElMessage({
+			message: '借书成功',
+			type: 'success',
+			duration: 1000
 		})
 		bookStore.getbooks()
 	}
@@ -42,7 +45,7 @@ const handleBorrow = async (number: string) => {
 				<el-table-column prop="time" label="年份" width="120" />
 				<el-table-column prop="stock" label="库存" width="120" />
 				<el-table-column prop="count" label="总数" width="120" />
-				<el-table-column fixed="right" label="操作" width="80">
+				<el-table-column fixed="right" label="操作" width="80" v-if="userStore.logined">
 					<template #default="scope">
 						<el-tooltip
 							:disabled="userStore.logined && scope.row.stock > 0"
