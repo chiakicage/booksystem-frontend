@@ -7,6 +7,7 @@ declare module 'vue' {
     BookManage: typeof import('./src/components/BookManage.vue')['default']
     BookSearch: typeof import('./src/components/BookSearch.vue')['default']
     BorrowManage: typeof import('./src/components/BorrowManage.vue')['default']
+    CarbonLogoGithub: typeof import('./src/components/icon/CarbonLogoGithub.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElButtonGroup: typeof import('element-plus/es')['ElButtonGroup']
     ElCol: typeof import('element-plus/es')['ElCol']
@@ -36,7 +37,9 @@ declare module 'vue' {
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     ElUpload: typeof import('element-plus/es')['ElUpload']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    MdiVuejs: typeof import('./src/components/icon/MdiVuejs.vue')['default']
     SearchBar: typeof import('./src/components/SearchBar.vue')['default']
+    SimpleIconVite: typeof import('./src/components/icon/SimpleIconVite.vue')['default']
     UserManage: typeof import('./src/components/UserManage.vue')['default']
   }
 }

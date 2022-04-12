@@ -16,6 +16,9 @@ import 'element-plus/theme-chalk/el-message.css'
 import { ref, watch, onMounted } from 'vue'
 import type { TabsPaneContext } from 'element-plus'
 import { ElMessage } from 'element-plus'
+import SimpleIconVite from './components/icon/SimpleIconVite.vue'
+import MdiVuejs from './components/icon/MdiVuejs.vue'
+import CarbonLogoGithub from './components/icon/CarbonLogoGithub.vue'
 
 const bookStore = useBookStore()
 const borrowStore = useBorrowStore()
@@ -188,7 +191,16 @@ const handleCommand = (command: 'login' | 'logout' | 'info') => {
         ><UserManage></UserManage></el-tab-pane>
       </el-tabs>
     </el-main>
-    <el-footer height="30px" style="color:grey; font-size: 12px; ">Designed by ckq@3200105435</el-footer>
+    <el-footer height="50px" style="color:grey; font-size: 12px; ">
+      <el-row style="display: flex; justify-content: center; text-align: center; width: 100%;">
+        <div style="margin: 10px 0;">Designed by ckq@3200105435</div>
+
+      </el-row>
+      <el-icon :size="20" style="margin: 0 10px;"><CarbonLogoGithub class="m-1"/></el-icon>
+      
+      <el-icon :size="20" style="margin: 0 10px;"><SimpleIconVite class="m-1"/></el-icon>
+      <el-icon :size="20" style="margin: 0 10px;"><MdiVuejs class="m-1"/></el-icon>
+    </el-footer>
   </el-container>
 </template>
 
@@ -244,5 +256,10 @@ const handleCommand = (command: 'login' | 'logout' | 'info') => {
 .login-input {
   margin: 10px auto;
   height: 50%;
+}
+.m-1 {
+  margin: 0 10px;
+  
+  color: grey
 }
 </style>
