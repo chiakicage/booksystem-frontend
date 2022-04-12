@@ -89,10 +89,10 @@ const submitFilter = () => {
 		</el-col>
 		<el-col :span="3" style="display: flex; flex-direction: row; justify-content: flex-end;">
 		<el-button-group>
-			<el-button type="primary" style="width: 50%" @click="clearFilter">
+			<el-button style="width: 50%" @click="clearFilter">
 				清空
 			</el-button>
-			<el-button type="primary" style="width: 50%" @click="bookStore.getbooks()">
+			<el-button style="width: 50%" @click="bookStore.getbooks()">
 				筛选
 				<!-- <el-icon style="margin-left: 5px;">
 					<Search />

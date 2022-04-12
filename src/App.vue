@@ -5,10 +5,12 @@
 import BookSearch from './components/BookSearch.vue'
 import BorrowManage from './components/BorrowManage.vue'
 import BookManage from './components/BookManage.vue'
+import UserManage from './components/UserManage.vue'
 import { ArrowDown } from '@element-plus/icons-vue'
 import { useUserStore } from './store/userStore'
 import { useBookStore } from './store/bookStore'
 import { useBorrowStore } from './store/borrowStore'
+import { useUserManageStore } from './store/userManageStore'
 import 'element-plus/theme-chalk/el-message.css'
 
 import { ref, watch, onMounted } from 'vue'
@@ -17,6 +19,7 @@ import { ElMessage } from 'element-plus'
 
 const bookStore = useBookStore()
 const borrowStore = useBorrowStore()
+const userManageStore = useUserManageStore()
 const activeName = ref('book')
 watch(activeName, (val) => {
   localStorage.setItem('activeName', val)
@@ -24,13 +27,19 @@ watch(activeName, (val) => {
     bookStore.getbooks()
   else if (val === 'borrow')
     borrowStore.getborrows()
+  else if (val === 'users')
+    userManageStore.getusers()
 })
 onMounted(() => {
   userStore.check()
   bookStore.getbooks()
   borrowStore.getborrows()
-  if (localStorage.getItem('activeName')) {
-    activeName.value = localStorage.getItem('activeName') as string
+  if (userStore.logined) {
+    if (localStorage.getItem('activeName')) {
+      activeName.value = localStorage.getItem('activeName') as string
+    }
+  } else {
+    localStorage.removeItem('activeName')
   }
 })
 
@@ -176,10 +185,10 @@ const handleCommand = (command: 'login' | 'logout' | 'info') => {
           label="用户管理"
           name="users"
           v-if="userStore.logined && userStore.type === 'admin'"
-        >Task</el-tab-pane>
+        ><UserManage></UserManage></el-tab-pane>
       </el-tabs>
     </el-main>
-    <el-footer height="30px">Designed by chiakicage</el-footer>
+    <el-footer height="30px" style="color:grey; font-size: 12px; ">Designed by ckq@3200105435</el-footer>
   </el-container>
 </template>
 

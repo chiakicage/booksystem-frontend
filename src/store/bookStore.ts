@@ -4,7 +4,6 @@ import { mande } from "mande"
 const books = mande("http://localhost:8080/api/books")
 
 interface BookInfo {
-	id: number
 	number: string
 	type: string
 	name: string

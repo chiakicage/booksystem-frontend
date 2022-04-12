@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { useUserStore } from '../store/userStore'
 import { useBorrowStore } from '../store/borrowStore'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -7,9 +7,40 @@ import type { UploadProps, UploadUserFile } from 'element-plus'
 import { mande } from 'mande'
 
 const submitList = mande('http://localhost:8080/api/books')
-const books = ref([])
+interface BookInfo {
+	name: string,
+	number: string,
+	type: string,
+	press: string,
+	time: number,
+	author: string,
+	price: string,
+	count: string
+}
+const books = ref<BookInfo[]>([])
 
 
+const newBook = ref<BookInfo>({
+	name: '',
+	number: '',
+	type: '',
+	press: '',
+	time: 0,
+	author: '',
+	price: '',
+	count: ''
+})
+const newBookDialog = ref(false)
+const rules = reactive({
+
+})
+const addBook = () => {
+	newBookDialog.value = false
+	let book = {
+		...newBook.value
+	}
+	books.value.push(book)
+}
 const beforeUpload: UploadProps['beforeUpload'] = (uploadFile) => {
 	console.log(uploadFile)
 }
@@ -30,6 +61,38 @@ const submit = async () => {
 }
 </script>
 <template>
+	<el-dialog v-model="newBookDialog" title="增加新书" width="400px" center >
+		<el-form label-width="80px" ref="ruleFormRef" :rules="rules" :model="newBook">
+			<el-form-item label="书号" prop="number">
+				<el-input v-model="newBook.number"></el-input>
+			</el-form-item>
+			<el-form-item label="书名" prop="name">
+				<el-input v-model="newBook.name"></el-input>
+			</el-form-item>
+			<el-form-item label="类别" prop="type">
+				<el-input v-model="newBook.type"></el-input>
+			</el-form-item>
+			<el-form-item label="价格" prop="price">
+				<el-input v-model="newBook.price"></el-input>
+			</el-form-item>
+			<el-form-item label="时间" prop="time">
+				<el-input v-model="newBook.time"></el-input>
+			</el-form-item>
+			<el-form-item label="出版社" prop="press">
+				<el-input v-model="newBook.press"></el-input>
+			</el-form-item>
+			<el-form-item label="作者" prop="author">
+				<el-input v-model="newBook.author"></el-input>
+			</el-form-item>
+			<el-form-item label="数量" prop="count">
+				<el-input v-model="newBook.count"></el-input>
+			</el-form-item>
+		</el-form>
+		<template #footer>
+			<el-button @click="newBookDialog = false">取消</el-button>
+			<el-button type="primary" @click="addBook">提交</el-button>
+    </template>
+	</el-dialog>
 	<el-container class="book-container">
 		<el-main>
 			<el-table :data="books" style="width: 100%" height="100%">
@@ -56,6 +119,9 @@ const submit = async () => {
 					>
 						<el-button >上传书单</el-button>
 					</el-upload >
+				</el-col>
+				<el-col :span="8">
+					<el-button @click="newBookDialog = true">添加新书</el-button>
 				</el-col>
 				<el-col :span="8">
 					<el-button type="primary" @click="submit">提交</el-button>
