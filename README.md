@@ -5,6 +5,8 @@
 打包工具使用了 `Vite.js`， 采用前后端分离式方法。
 UI 库选择了 `Element-UI Plus` 。
 
+需要 `Node.js` 和 `npm` 。
+
 ## 运行本地开发服务器
 ```bash
 npm i # 安装依赖

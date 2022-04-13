@@ -2,7 +2,7 @@ import { defineStore, acceptHMRUpdate } from "pinia"
 import { mande } from "mande"
 import { useUserStore } from "./userStore"
 
-const borrows = mande("http://localhost:8080/api/borrows")
+const borrows = mande("/api/borrows")
 
 interface BorrowInfo {
 	borrow_s: string

@@ -2,7 +2,7 @@ import { defineStore, acceptHMRUpdate } from 'pinia'
 import { mande } from 'mande'
 import { sha256 } from "js-sha256"
 
-const users = mande('http://localhost:8080/api/users')
+const users = mande('/api/users')
 
 type UserType = 'admin' | 'teacher' | 'student'
 interface UserState {

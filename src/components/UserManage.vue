@@ -10,7 +10,7 @@ import { ElMessage, FormInstance } from 'element-plus'
 import { mande } from 'mande'
 import { rangeRight } from 'lodash'
 
-const user = mande('http://localhost:8080/api/users/')
+const user = mande('/api/users/')
 const userManageStore = useUserManageStore()
 const editDialog = ref(false)
 const editingUser = ref({
@@ -190,7 +190,11 @@ const submitCreate = async (formEl: FormInstance | undefined) => {
 					})
 				}
 			} catch (err) {
-	
+				ElMessage({
+					type: 'error',
+					message: '添加失败',
+					duration: 1000
+				})
 			}
 		} else {
 			// console.log('error submit!')

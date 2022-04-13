@@ -6,7 +6,7 @@ import { ElMessage, ElMessageBox, FormInstance } from 'element-plus'
 import type { UploadProps, UploadUserFile } from 'element-plus'
 import { mande } from 'mande'
 
-const submitList = mande('http://localhost:8080/api/books')
+const submitList = mande('/api/books')
 interface BookInfo {
 	name: string,
 	number: string,
@@ -40,14 +40,14 @@ const isInt = (value: string) => {
 	return true
 }
 const checkNumber = (rule: any, value: string, callback: any) => {
-	if (isNumber(value)) {
+	if (!isNumber(value)) {
 		callback(new Error("请输入数字"))
 	} else {
 		callback()
 	}
 }
 const checkInt = (rule: any, value: string, callback: any) => {
-	if (isInt(value)) {
+	if (!isInt(value)) {
 		callback(new Error("请输入整数"))
 	} else {
 		callback()
@@ -269,7 +269,7 @@ const validBooks = ({
 		<el-footer class="book-pages">
 			<el-row justify="space-between"  style="width: 80%;">
 				<el-col :span="8">
-					<el-upload class="upload-demo" action="http://localhost:8080/api/books/parse" :before-upload="beforeUpload"
+					<el-upload class="upload-demo" action="/api/books/parse" :before-upload="beforeUpload"
 						:on-success="onSuccess" accept="text/plain" :show-file-list="false">
 						<el-button>上传书单</el-button>
 					</el-upload>

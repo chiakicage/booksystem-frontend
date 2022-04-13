@@ -1,7 +1,7 @@
 import { defineStore, acceptHMRUpdate } from "pinia"
 import { mande } from "mande"
 
-const books = mande("http://localhost:8080/api/books")
+const books = mande("/api/books")
 
 interface BookInfo {
 	number: string

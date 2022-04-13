@@ -7,7 +7,7 @@ import { ElMessage } from 'element-plus';
 
 import { mande } from 'mande'
 
-const borrow = mande('http://localhost:8080/api/borrows')
+const borrow = mande('/api/borrows')
 
 const userStore = useUserStore()
 const bookStore = useBookStore()
